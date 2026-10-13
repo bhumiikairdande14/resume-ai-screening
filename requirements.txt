@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Resume Screening Result</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    padding: 40px;
+    color: #172033;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #7c8798;
+}
+
+.score-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    margin-bottom: 25px;
+}
+
+.score {
+    font-size: 65px;
+    font-weight: bold;
+    color: #6d4aff;
+    margin: 20px 0;
+}
+
+.status {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.success {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.warning {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 17px;
+    padding: 25px;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+    font-size: 19px;
+    margin-bottom: 18px;
+}
+
+.metric {
+    font-size: 35px;
+    font-weight: bold;
+    color: #6d4aff;
+}
+
+.skill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill {
+    padding: 9px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.matched {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.missing {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 15px;
+    border-radius: 11px;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+@media(max-width:700px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            Resume Screening Result
+        </h1>
+
+        <p>
+            {{ filename }}
+        </p>
+
+    </div>
+
+
+    <div class="score-card">
+
+        <h2>
+            Final Match Score
+        </h2>
+
+        <div class="score">
+            {{ final_score }}%
+        </div>
+
+        <span class="status {{ status_class }}">
+            {{ status }}
+        </span>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h2>
+                TF-IDF Similarity
+            </h2>
+
+            <div class="metric">
+                {{ similarity_score }}%
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                Skill Match
+            </h2>
+
+            <div class="metric">
+                {{ skill_score }}%
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            ✅ Matched Skills
+        </h2>
+
+        {% if matched_skills %}
+
+        <div class="skill-container">
+
+            {% for skill in matched_skills %}
+
+            <span class="skill matched">
+                ✓ {{ skill }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p>
+            No matching skills found.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <br>
+
+
+    <div class="card">
+
+        <h2>
+            ❌ Missing Skills
+        </h2>
+
+        {% if missing_skills %}
+
+        <div class="skill-container">
+
+            {% for skill in missing_skills %}
+
+            <span class="skill missing">
+                ✗ {{ skill }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p>
+            All required skills were found!
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <a href="/" class="back">
+        ← Screen Another Resume
+    </a>
+
+</div>
+
+</body>
+
+</html>
